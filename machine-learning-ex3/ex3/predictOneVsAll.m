@@ -30,11 +30,11 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+val = sigmoid(X*all_theta');
 
+[max_val, idx] = max( val, [], 2 ); %gives the max value per row and the index
 
-
-
-
+p = idx; %index gives the digit identified
 
 % =========================================================================
 

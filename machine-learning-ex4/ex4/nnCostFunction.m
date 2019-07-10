@@ -62,21 +62,36 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-y_matrix = eye(num_labels)(y,:);
+%Part 1 - Forward Propogation
 
-a1 = [ones(m, 1) X];
+y_matrix = eye(num_labels)(y,:); %convert vector to matrix
 
-z2 = sigmoid(a1*Theta1');
+a1 = [ones(m, 1) X]; %add bias unit
 
-a2 = [ones(m, 1) z2];
+z2 = sigmoid(a1*Theta1'); 
+
+a2 = [ones(m, 1) z2]; %add bias unit
 
 z3 = sigmoid(a2*Theta2');
 
 h1 = z3;
 
-cost = (-1/m)*(y_matrix'*log(h1) + (1-y_matrix)'*log(1-h1));
+%sum of the diagonal is the cost
+c = (-1/m)*(y_matrix'*log(h1) + (1-y_matrix)'*log(1-h1));
 
-J = trace(cost);
+t1 = Theta1(:,2:size(Theta1,2)); %drop biases that were added
+t2 = Theta2(:,2:size(Theta2,2));
+
+reg_param = trace((lambda/(2*m))*(t1*t1')) + \
+            trace((lambda/(2*m))*(t2*t2'));
+
+cost = trace(c) + reg_param;
+
+J = cost;
+
+
+%Part 2 - Backward Propogation
+
 
 
 % -------------------------------------------------------------

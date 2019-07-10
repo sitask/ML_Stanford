@@ -62,7 +62,7 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-%Part 1 - Forward Propogation
+%Part 1 - Forward Propagation with regularization
 
 y_matrix = eye(num_labels)(y,:); %convert vector to matrix
 
@@ -85,14 +85,27 @@ t2 = Theta2(:,2:size(Theta2,2));
 reg_param = trace((lambda/(2*m))*(t1*t1')) + \
             trace((lambda/(2*m))*(t2*t2'));
 
-cost = trace(c) + reg_param;
+J = trace(c) + reg_param;
 
-J = cost;
+%Part 2 - Backward Propagation
 
+delta3 = z3 - y_matrix;
+z2 = sigmoidGradient( a1*Theta1');
 
-%Part 2 - Backward Propogation
+delta2 = z2.*(delta3*t2);
 
+Delta1 = delta2'*a1;
+Delta2 = delta3'*a2;
 
+Theta1(:,1) = 0; %set bias values to 0
+Theta2(:,1) = 0;
+
+%Part 3 - regularization of the gradients post backpropagation
+reg_param21 = (lambda/m)*Theta1;
+reg_param22 = (lambda/m)*Theta2;
+
+Theta1_grad = (1/m)*Delta1 + reg_param21;
+Theta2_grad = (1/m)*Delta2 + reg_param22;
 
 % -------------------------------------------------------------
 

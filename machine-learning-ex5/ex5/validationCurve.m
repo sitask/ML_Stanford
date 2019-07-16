@@ -27,25 +27,19 @@ error_val = zeros(length(lambda_vec), 1);
 %
 % Note: You can loop over lambda_vec with the following:
 %
-%       for i = 1:length(lambda_vec)
-%           lambda = lambda_vec(i);
+  for i = 1:length(lambda_vec)
+    lambda = lambda_vec(i);
 %           % Compute train / val errors when training linear 
 %           % regression with regularization parameter lambda
 %           % You should store the result in error_train(i)
 %           % and error_val(i)
 %           ....
-%           
-%       end
-%
-%
-
-
-
-
-
-
-
-
+    theta = trainLinearReg(X, y, lambda);
+    
+    %lambda is used only to calculate theta and not on the cost function
+    error_train(i) = linearRegCostFunction( X, y, theta, 0); 
+    error_val(i) = linearRegCostFunction(Xval, yval, theta, 0);       
+  end
 
 
 % =========================================================================

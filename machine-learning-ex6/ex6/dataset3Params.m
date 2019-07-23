@@ -23,11 +23,30 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+results = [];   % create an empty results matrix
+i = 0;
 
+for C_test = [0.01,0.03,0.1,0.3,1,3,10,30]
+  for sigma_test = [0.01,0.03,0.1,0.3,1,3,10,30]
 
+    % your code goes here to train using C_test and sigma_test
+    %    and compute the validation set errors
 
+    model = svmTrain(X, y, C_test, @(x1, x2) gaussianKernel(x1, x2, sigma_test)); 
+    predictions = svmPredict(model, Xval);
+    err_value = mean(double(predictions ~= yval));
+    
+    % save the results in the matrix
+    results = [results ; C_test sigma_test err_value];
+    fprintf('%d\n', i++);
+    endfor
+endfor
 
+% use the min() function to find the best C and sigma values
 
+[v i] = min(results(:,3));
+C = results(i, 1);
+sigma = results(i, 2);
 
 % =========================================================================
 

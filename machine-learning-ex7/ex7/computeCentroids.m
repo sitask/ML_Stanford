@@ -26,7 +26,12 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-
+for i = 1:K
+  #find all points that are part of a cluster
+  sel = find(idx == i); 
+  #find the cluster centroid
+  centroids(i,:) = mean(X(sel,:),1);
+endfor
 
 
 

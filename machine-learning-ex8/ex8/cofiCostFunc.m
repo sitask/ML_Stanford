@@ -44,9 +44,20 @@ predicted = X*Theta';
 error = predicted - Y;
 error_factor = error.*R;
 temp = 1/2*error_factor.*error_factor;
-J = sum(sum(temp));
 
+% summation twice to get the sum of all non zero elements in the array
+J = sum(sum(temp)); 
 
+%gradient calculation
+X_grad = error_factor*Theta;
+Theta_grad = error_factor'*X;
+
+%cost with regularization
+J = J + (lambda/2)*sum(sum(X.*X)) + (lambda/2)*sum(sum(Theta.*Theta));
+
+%gradient with regularization
+X_grad = X_grad + lambda*X;
+Theta_grad = Theta_grad + lambda*Theta;
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
